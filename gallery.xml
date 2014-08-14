@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" type="plugin" group="content" method="upgrade">
+  <name>plg_content_gallery</name>
+  <author>Rene Bentes Pinto</author>
+  <creationDate>04/08/2014</creationDate>
+  <copyright>(C) 2014 Rene Bentes Pinto, Inc. All rights reserved.</copyright>
+  <license>GNU General Public License version 2 or later; see http://www.gnu.org/licenses/gpl-2.0.html</license>
+  <authorEmail>renebentes@yahoo.com.br</authorEmail>
+  <authorUrl></authorUrl>
+  <version>1.0.0</version>
+  <description>PLG_CONTENT_GALLERY_XML_DESCRIPTION</description>
+  <scriptfile>script.php</scriptfile>
+  <files>
+    <folder>assets</folder>
+    <folder>tmpl</folder>
+    <filename plugin="gallery">gallery.php</filename>
+    <filename>helper.php</filename>
+    <filename>index.html</filename>
+    <filename>LICENSE</filename>
+    <filename>README.md</filename>
+  </files>
+  <languages folder="language">
+    <language tag="en-GB">en-GB/en-GB.plg_content_gallery.ini</language>
+    <language tag="en-GB">en-GB/en-GB.plg_content_gallery.sys.ini</language>
+    <language tag="pt-BR">pt-BR/pt-BR.plg_content_gallery.ini</language>
+    <language tag="pt-BR">pt-BR/pt-BR.plg_content_gallery.sys.ini</language>
+  </languages>
+  <config>
+    <fields name="params">
+    </fields>
+  </config>
+</extension>
