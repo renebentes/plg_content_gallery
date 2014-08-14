@@ -9,22 +9,19 @@
 // No direct access.
 defined('_JEXEC') or die('Restricted access!');
 
-/*$script   = array();
-$script[] = "if (typeof jQuery === 'undefined') {";
-$script[] = "  throw new Error('Requires jQuery');";
-$script[] = "}\n";
+/*
+$script   = array();
+$script[] = "if (typeof jQuery === 'undefined') { throw new Error('Gallery\\'s Javascript requires jQuery!'); }\n";
 $script[] = "jQuery.noConflict();\n";
-$script[] = "!function ($) {";
+$script[] = "+function ($) {";
 $script[] = "  $(function () {";
-$script[] = "    $('.gallery img').on('click', function () {";
-$script[] = "      var count = $('gallery').children().length;";
-$script[] = "      var img = '<img src=\"' + $(this).parent().attr('href') + '\" class=\"img-responsive\" />';";
-$script[] = "      var index = $($(this).parent()).parent().index();";
+$script[] = "    $('.thumbnail img').on('click', function () {";
+$script[] = "      var img = '<img src=\"' + $(this).parent('a').attr('href') + '\" class=\"img-responsive\" />';";
+$script[] = "      var index = $(this).parent('a').index();";
 $script[] = "      $('#gallery').modal();";
 $script[] = "      $('#gallery').on('shown.bs.modal', function () {";
-$script[] = "        $('#gallery .modal-body').html('<p>Index: ' + count + '</p>' + img);";
-$script[] = "        $('#gallery .modal-footer .prev').attr('href', index - 1);";
-$script[] = "        $('#gallery .modal-footer .next').attr('href', index + 1);";
+$script[] = "        $('#gallery .modal-body').html(img);";
+$script[] = "        $('#gallery .modal-footer a.previous').attr('href', index);";
 $script[] = "      });";
 $script[] = "      $('#gallery').on('hidden.bs.modal', function () {";
 $script[] = "        $('#gallery .modal-body').html('');";
@@ -62,27 +59,6 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script)); */?>
     </a>
   </div>
 <?php endforeach; ?>
-</div>
-
-<?php /* ?><div class="modal fade" id="gallery" tabindex="-1" role="dialog" aria-labelledby="galleryLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close hasTooltip" data-original-title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>" data-dismiss="modal">
-          <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
-        </button>
-        <h4 class="modal-title" id="galleryLabel"><?php echo $row->title; ?></h4>
-      </div>
-      <div class="modal-body">
-      </div>
-      <div class="modal-footer">
-        <div class="btn-group">
-          <a class="btn btn-default extra-tooltip control prev" href="#" role="button" data-original-title="<?php echo JText::_('JPREVIOUS');?>" ><i class="fa fa-chevron-left"></i></a>
-          <a class="btn btn-default extra-tooltip control next" href="#" role="button" data-original-title="<?php echo JText::_('JNEXT');?>"><i class="fa fa-chevron-right"></i></a>
-      </div>
-    </div>
-  </div>
 </div>
 
 <?php /*

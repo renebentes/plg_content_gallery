@@ -91,7 +91,11 @@ class plgContentGallery extends JPlugin
       include $path;
       $html = ob_get_contents();
       ob_end_clean();
+<<<<<<< HEAD
       $regex = '/{gallery}' . str_replace('.', '\.', str_replace('/', '\/', $source)) . '{\/gallery}/is';
+=======
+      $regex = "/{gallery}" . str_replace('.', '\.', str_replace('/', '\/', $source)) . "{\/gallery}/is";
+>>>>>>> 55a6eaf0d0ceaa538d69e8cc03ad8799088ff90e
 
       $row->text = preg_replace($regex, $html, $row->text);
     }

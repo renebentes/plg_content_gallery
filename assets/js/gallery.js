@@ -83,7 +83,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
   $.fn.gallery.Constructor = Gallery;
 
   // GALLERY NOCONFLICT
-  // ===========================
 
   $.fn.gallery.noConflict = function () {
     $.fn.gallery = old;
