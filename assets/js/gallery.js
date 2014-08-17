@@ -14,14 +14,38 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
 
   var Gallery = function (element, options) {
     this.$element = $(element);
-    this.options  = $.extend({}, Gallery.DEFAULTS, options)
-    this.count    = this.$element.children().length;
+    this.options  = $.extend({}, Gallery.DEFAULTS, options);
     this.parent   = this.$element.parents().find('.gallery');
+    this.count    = this.parent.children().length;
     this.index    = 0;
-    this.template = '<div class="gallery-modal modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">';
-    this.template += '<div class="modal-dialog"><div class="modal-content"><div class="modal-body">';
-    this.template += '<img src="" class="img-responsive" alt="" title="" />' + this.parent.attr('class') + ' </div></div></div></div>';
 
+    this.template = {
+      dialog:
+        '<div class="gallery-modal modal fade" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">' +
+          '<div class="modal-dialog">' +
+            '<div class="modal-content">' +
+              '<div class="modal-body">' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>',
+      header:
+        '<div class="modal-header">' +
+          '<button type="button" class="close" data-dismiss="modal">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '<span class="sr-only">Close</span>' +
+          '</button>' +
+        '</div>',
+      footer:
+        '<div class="modal-footer"></div>',
+      image:
+        '<img src="" class="img-responsive" alt="" title="" />',
+      control:
+        '<div class="btn-group">' +
+          '<button type="button" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>' +
+          '<button type="button" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>' +
+        '</div>'
+    };
   };
 
   Gallery.VERSION = '1.0.0';
@@ -31,22 +55,22 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
   };
 
   Gallery.prototype.show = function () {
-    //var src = this.$element.children().get(this.index);
+    $('div').remove('.gallery-modal');
+    $('body').append(this.template.dialog);
+    $('.gallery-modal .modal-content').prepend(this.template.header);
+    $('.gallery-modal .modal-body').append(this.template.image);
+    $('.gallery-modal img').attr('src', this.$element.attr('href'));
 
-    $('body').append(this.template);
+    if (this.count > 1) {
+      $('.gallery-modal .modal-content').append(this.template.footer);
+      $('.gallery-modal .modal-footer').append(this.template.control);
+    }
+
     $('.gallery-modal').modal();
-    $('.gallery-modal').on('shown.bs.modal', function () {
-      $('.gallery-modal img').attr('title', 'Alguma coisa');
-    });
-  };
-  /*
-
-  Gallery.prototype.toggle = function () {
-    $('body').append(this.options.template);
   };
 
   Gallery.prototype.keydown = function () {
-    this.options.template.off('keydown').on('keydown', function (e) {
+    ('gallery-modal').off('keydown').on('keydown', function (e) {
       switch (e.keyCode) {
         case 37:
           this.prev();
@@ -54,14 +78,18 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
         case 39:
           this.next();
           break;
+        case 27:
+          ('gallery-modal').modal('hide');
+          break;
         default:
           return;
       }
     });
+  };
 
+  Gallery.prototype.prev = function () {
 
-    e.preventDefault();
-  };*/
+  };
 
   // GALLERY PLUGIN DEFINITION
   // ==================================
