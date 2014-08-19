@@ -15,8 +15,8 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
   var Gallery = function (element, options) {
     this.$element = $(element);
     this.options  = $.extend({}, Gallery.DEFAULTS, options);
-    this.parent   = this.$element.parents().find('.gallery');
-    this.count    = this.parent.children().length;
+    this.$parent  = this.$element.parents().find('.gallery');
+    this.count    = this.$parent.children().length;
     this.index    = 0;
 
     this.template = {
@@ -41,9 +41,9 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
       image:
         '<img src="" class="img-responsive" alt="" title="" />',
       control:
-        '<div class="btn-group">' +
-          '<button type="button" class="btn btn-default"><i class="fa fa-chevron-left"></i></button>' +
-          '<button type="button" class="btn btn-default"><i class="fa fa-chevron-right"></i></button>' +
+        '<div class="btn-group control">' +
+          '<button type="button" class="btn btn-default prev"><i class="fa fa-chevron-left"></i></button>' +
+          '<button type="button" class="btn btn-default next"><i class="fa fa-chevron-right"></i></button>' +
         '</div>'
     };
   };
@@ -64,13 +64,16 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
     if (this.count > 1) {
       $('.gallery-modal .modal-content').append(this.template.footer);
       $('.gallery-modal .modal-footer').append(this.template.control);
+
+      $('gallery-modal').on('click.prev.bs.gallery', '[class="prev"]', $.proxy(this.prev(), this));
+      $('gallery-modal').on('click.next.bs.gallery', '[class="next"]', $.proxy(this.next, this));
     }
 
     $('.gallery-modal').modal();
   };
 
-  Gallery.prototype.keydown = function () {
-    ('gallery-modal').off('keydown').on('keydown', function (e) {
+  /*Gallery.prototype.keydown = function () {
+    $('gallery-modal').off('keydown').on('keydown', function (e) {
       switch (e.keyCode) {
         case 37:
           this.prev();
@@ -85,10 +88,33 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
           return;
       }
     });
-  };
+  };*/
 
   Gallery.prototype.prev = function () {
+    $('.gallery-modal .control .prev').on('click', function (e) {
+      e.preventDefault();
+      alert(this.index);
 
+    /*  this.index--;
+      if (this.index < 0) this.index = this.count - 1;
+
+      $('.gallery-modal img').attr('src', this.$parent.children().get(this.index).attr('href'));*/
+
+      return false;
+    });
+  };
+
+  Gallery.prototype.next = function () {
+    $('.gallery-modal .control .next').off('click').on('click', function (e) {
+      e.preventDefault();
+
+      this.index++;
+      if (this.index >= this.count) this.index = 0;
+
+      $('.gallery-modal img').attr('src', this.$parent.children().get(this.index).attr('href'));
+
+      return false;
+    });
   };
 
   // GALLERY PLUGIN DEFINITION
@@ -121,9 +147,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
   // ==============
 
   $(document).on('click.bs.gallery.data-api', '[data-toggle="gallery"]', function (e) {
-    var $this = $(this);
-    var href  = $this.attr('href');
-
     e.preventDefault();
 
     Plugin.call($(this), 'show');
