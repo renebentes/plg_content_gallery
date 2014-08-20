@@ -13,11 +13,12 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
   // ========================
 
   var Gallery = function (element, options) {
-    this.$element = $(element);
-    this.options  = $.extend({}, Gallery.DEFAULTS, options);
-    this.$parent  = this.$element.parents().find('.gallery');
-    this.count    = this.$parent.children().length;
-    this.index    = 0;
+    this.$element  = $(element);
+    this.options   = $.extend({}, Gallery.DEFAULTS, options);
+    this.$parent   = this.$element.parents().find('.gallery');
+    this.count     = this.$parent.children().length;
+    this.index     = this.$element.parent().index();
+    this.container = this.options.container;
 
     this.template = {
       dialog:
@@ -41,7 +42,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
       image:
         '<img src="" class="img-responsive" alt="" title="" />',
       control:
-        '<div class="btn-group control">' +
+        '<div class="btn-group control pull-right">' +
           '<button type="button" class="btn btn-default prev"><i class="fa fa-chevron-left"></i></button>' +
           '<button type="button" class="btn btn-default next"><i class="fa fa-chevron-right"></i></button>' +
         '</div>'
@@ -51,70 +52,73 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
   Gallery.VERSION = '1.0.0';
 
   Gallery.DEFAULTS = {
-
+    container: '.gallery-modal'
   };
 
   Gallery.prototype.show = function () {
-    $('div').remove('.gallery-modal');
+    $('div').remove(this.container);
     $('body').append(this.template.dialog);
-    $('.gallery-modal .modal-content').prepend(this.template.header);
-    $('.gallery-modal .modal-body').append(this.template.image);
-    $('.gallery-modal img').attr('src', this.$element.attr('href'));
+    $(this.container).on('keydown.bs.gallery', $.proxy(this.keydown, this));
 
-    if (this.count > 1) {
-      $('.gallery-modal .modal-content').append(this.template.footer);
-      $('.gallery-modal .modal-footer').append(this.template.control);
+    $(this.container + ' .modal-content').prepend(this.template.header);
+    $(this.container + ' .modal-body').append(this.template.image);
+    $(this.container + ' img').attr('src', this.$element.attr('href'));
 
-      $('gallery-modal').on('click.prev.bs.gallery', '[class="prev"]', $.proxy(this.prev(), this));
-      $('gallery-modal').on('click.next.bs.gallery', '[class="next"]', $.proxy(this.next, this));
+    if (this.count > 1 || (this.$element.find('img').attr('alt') !== 'undefined' || this.$element.find('img').attr('title') !== 'undefined')) {
+      $(this.container + ' .modal-content').append(this.template.footer);
+      if (this.$element.find('img').attr('title') !== 'undefined')
+        $(this.container + ' .modal-footer').append('<h4 class="pull-left">' + this.$element.find('img').attr('title') + '</h4>');
+      if (this.$element.find('img').attr('alt') !== 'undefined')
+        $(this.container + ' .modal-footer').append('<p class="pull-left">' + this.$element.find('img').attr('alt') + '</p>');
+
+      if (this.count > 1) {
+        $(this.container + ' .modal-footer').append(this.template.control);
+        $(this.container + ' .control .prev').on('click.prev.bs.gallery', $.proxy(this.prev, this));
+        $(this.container + ' .control .next').on('click.next.bs.gallery', $.proxy(this.next, this));
+      }
+
     }
 
-    $('.gallery-modal').modal();
+    $(this.container).modal();
   };
 
-  /*Gallery.prototype.keydown = function () {
-    $('gallery-modal').off('keydown').on('keydown', function (e) {
-      switch (e.keyCode) {
-        case 37:
-          this.prev();
-          break;
-        case 39:
-          this.next();
-          break;
-        case 27:
-          ('gallery-modal').modal('hide');
-          break;
-        default:
-          return;
-      }
-    });
-  };*/
+  Gallery.prototype.keydown = function (e) {
+    switch (e.which) {
+      case 37:
+        this.prev();
+        break;
+      case 39:
+        this.next();
+        break;
+      case 27:
+        $(this.container).modal('hide');
+        break;
+      default:
+        return;
+    }
+    e.preventDefault();
+  };
 
   Gallery.prototype.prev = function () {
-    $('.gallery-modal .control .prev').on('click', function (e) {
-      e.preventDefault();
-      alert(this.index);
+    this.index--;
+    if (this.index < 0) {
+      this.index = this.count - 1;
+    }
 
-    /*  this.index--;
-      if (this.index < 0) this.index = this.count - 1;
+    $(this.container + ' img').attr('src', this.$parent.find('a').get(this.index).getAttribute('href'));
 
-      $('.gallery-modal img').attr('src', this.$parent.children().get(this.index).attr('href'));*/
-
-      return false;
-    });
+    return false;
   };
 
   Gallery.prototype.next = function () {
-    $('.gallery-modal .control .next').off('click').on('click', function (e) {
-      e.preventDefault();
+    this.index++;
+    if (this.index >= this.count) {
+      this.index = 0;
+    }
 
-      this.index++;
-      if (this.index >= this.count) this.index = 0;
+    $(this.container + ' img').attr('src', this.$parent.find('a').get(this.index).getAttribute('href'));
 
-      $('.gallery-modal img').attr('src', this.$parent.children().get(this.index).attr('href'));
-
-      return false;
-    });
+    return false;
   };
 
   // GALLERY PLUGIN DEFINITION

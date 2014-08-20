@@ -40,6 +40,40 @@ abstract class GalleryHelper
   }
 
   /**
+   * Gets captions for items
+   *
+   * @param string $folder    The gallery path
+   * @param string $reference The item gallery filename
+   *
+   * @return mixed            Array of captions or false on failed
+   */
+  private static function _getCaption($folder, $reference)
+  {
+    $file = $folder . '/gallery.txt';
+    if (JFile::exists($file))
+    {
+      $caption              = new JObject;
+      $caption->title       = '';
+      $caption->description ='';
+      $content              = file($file);
+
+      foreach ($content as $line)
+      {
+        $temp = explode(';', $line);
+        if (strtolower($temp[0]) == strtolower($reference))
+        {
+          $caption->title       = $temp[1];
+          $caption->description = $temp[2];
+          break;
+        }
+      }
+      return $caption;
+    }
+
+    return false;
+  }
+
+  /**
    * Get the path to a layout from Gallery
    *
    * @param   string  $type    Plugin type
@@ -161,8 +195,15 @@ abstract class GalleryHelper
       foreach ($found as $key => $filename)
       {
         $gallery[$key] = new JObject;
-        $original      = $folder . '/' . $filename;
-        $thumbname     = $cache . '/' . strtolower($filename);
+
+        if (self::_getCaption($folder, $filename))
+        {
+          $gallery[$key]->title       = self::_getCaption($folder, $filename)->title;
+          $gallery[$key]->description = self::_getCaption($folder, $filename)->description;
+        }
+
+        $original             = $folder . '/' . $filename;
+        $thumbname            = $cache . '/' . strtolower($filename);
 
         // Check if thumbnail exists already
         if (!(JFile::exists($thumbname) && is_readable($thumbname) && (filemtime($thumbname) + $expireTime) > time()))
@@ -222,7 +263,7 @@ abstract class GalleryHelper
         }
 
         $gallery[$key]->filename  = $filename;
-        $gallery[$key]->image    = str_replace(JPATH_SITE, JUri::base(true), $original);
+        $gallery[$key]->image     = str_replace(JPATH_SITE, JUri::base(true), $original);
         $gallery[$key]->thumbnail = str_replace(JPATH_SITE, JUri::base(true), $thumbname);
       }
     }

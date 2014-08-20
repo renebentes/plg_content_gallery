@@ -26,6 +26,8 @@ You can [report a bug or request a feature here](http://github.com/renebentes/pl
 TODO
 ----
 
+* Remover arquivos antigos
+* Inserir legenda para imagem a partir de arquivo de texto
 
 
 Release Notes

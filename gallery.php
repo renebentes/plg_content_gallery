@@ -86,7 +86,7 @@ class plgContentGallery extends JPlugin
 
     foreach ($matches[1] as $source)
     {
-      $row->gallery = GalleryHelper::getGallery($source,'100x60', true, 90, 86400, $row->id);
+      $row->gallery = GalleryHelper::getGallery($source,'150x110', true, 90, 86400, $row->id);
       ob_start();
       include $path;
       $html = ob_get_contents();
@@ -96,6 +96,9 @@ class plgContentGallery extends JPlugin
 
       $row->text = preg_replace($regex, $html, $row->text);
     }
+
+    JFactory::getDocument()->addStylesheet(JUri::root(true) . '/plugins/content/gallery/assets/css/gallery.css');
+    echo '<script src="' . JUri::root(true) . '/plugins/content/gallery/assets/js/gallery.js" type="text/javascript"></script>';
 
     return true;
   }
