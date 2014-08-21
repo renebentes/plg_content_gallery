@@ -30,7 +30,7 @@ abstract class GalleryHelper
    * @param  integer $expireTime  Cache time
    * @param  integer $id          Gallery identifier
    *
-   * @return array                Gallery items
+   * @return ob                Gallery items
    */
   public static function getGallery($folder, $size = '100x60', $smartResize = true, $quality = 90, $expireTime = 86400, $id)
   {
@@ -45,17 +45,18 @@ abstract class GalleryHelper
    * @param string $folder    The gallery path
    * @param string $reference The item gallery filename
    *
-   * @return mixed            Array of captions or false on failed
+   * @return object           Captions
    */
   private static function _getCaption($folder, $reference)
   {
     $file = $folder . '/gallery.txt';
+    $caption              = new JObject;
+    $caption->title       = '';
+    $caption->description = '';
+
     if (JFile::exists($file))
     {
-      $caption              = new JObject;
-      $caption->title       = '';
-      $caption->description ='';
-      $content              = file($file);
+      $content = file($file);
 
       foreach ($content as $line)
       {
@@ -67,10 +68,8 @@ abstract class GalleryHelper
           break;
         }
       }
-      return $caption;
     }
-
-    return false;
+    return $caption;
   }
 
   /**

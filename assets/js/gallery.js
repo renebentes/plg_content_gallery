@@ -40,7 +40,7 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
       footer:
         '<div class="modal-footer"></div>',
       image:
-        '<img src="" class="img-responsive" alt="" title="" />',
+        '<img src="" class="img-responsive center-block" alt="" title="" />',
       control:
         '<div class="btn-group control pull-right">' +
           '<button type="button" class="btn btn-default prev"><i class="fa fa-chevron-left"></i></button>' +
@@ -64,10 +64,11 @@ if (typeof jQuery === 'undefined') { throw new Error('Gallery\'s Javascript requ
     $(this.container + ' .modal-body').append(this.template.image);
     $(this.container + ' img').attr('src', this.$element.attr('href'));
 
-    if (this.count > 1 || (this.$element.find('img').attr('alt') !== 'undefined' || this.$element.find('img').attr('title') !== 'undefined')) {
+    if (this.$element.find('img').attr('title') !== 'undefined')
+      $(this.container + ' .modal-header').append('<h4 class="modal-title">' + this.$element.find('img').attr('title') + '</h4>');
+
+    if (this.count > 1 || this.$element.find('img').attr('alt') !== 'undefined') {
       $(this.container + ' .modal-content').append(this.template.footer);
-      if (this.$element.find('img').attr('title') !== 'undefined')
-        $(this.container + ' .modal-footer').append('<h4 class="pull-left">' + this.$element.find('img').attr('title') + '</h4>');
       if (this.$element.find('img').attr('alt') !== 'undefined')
         $(this.container + ' .modal-footer').append('<p class="pull-left">' + this.$element.find('img').attr('alt') + '</p>');
 
