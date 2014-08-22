@@ -10,3 +10,15 @@
   -webkit-filter: grayscale(0);
           filter: none;
 }
+
+.gallery-modal .modal-header {
+  position: relative;;
+}
+.gallery-modal .modal-header .btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: 0;
+  border-top-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

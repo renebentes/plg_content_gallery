@@ -10,6 +10,7 @@
 defined('_JEXEC') or die('Restricted access!');
 
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
 
 /**
 * Gallery plugin helper class
@@ -32,7 +33,7 @@ abstract class GalleryHelper
    *
    * @return ob                Gallery items
    */
-  public static function getGallery($folder, $size = '100x60', $smartResize = true, $quality = 90, $expireTime = 86400, $id)
+  public static function getGallery($folder, $size = '200x160', $smartResize = true, $quality = 90, $expireTime = 86400, $id)
   {
     $folder  = JPATH_SITE . '/images/' . $folder;
 
@@ -49,7 +50,7 @@ abstract class GalleryHelper
    */
   private static function _getCaption($folder, $reference)
   {
-    $file = $folder . '/gallery.txt';
+    $file                 = $folder . '/gallery.txt';
     $caption              = new JObject;
     $caption->title       = '';
     $caption->description = '';
@@ -201,8 +202,8 @@ abstract class GalleryHelper
           $gallery[$key]->description = self::_getCaption($folder, $filename)->description;
         }
 
-        $original             = $folder . '/' . $filename;
-        $thumbname            = $cache . '/' . strtolower($filename);
+        $original  = $folder . '/' . $filename;
+        $thumbname = $cache . '/' . strtolower($filename);
 
         // Check if thumbnail exists already
         if (!(JFile::exists($thumbname) && is_readable($thumbname) && (filemtime($thumbname) + $expireTime) > time()))

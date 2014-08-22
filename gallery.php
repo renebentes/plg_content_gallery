@@ -86,7 +86,7 @@ class plgContentGallery extends JPlugin
 
     foreach ($matches[1] as $source)
     {
-      $row->gallery = GalleryHelper::getGallery($source,'150x110', true, 90, 86400, $row->id);
+      $row->gallery = GalleryHelper::getGallery($source,'200x160', true, 90, 86400, $row->id);
       ob_start();
       include $path;
       $html = ob_get_contents();

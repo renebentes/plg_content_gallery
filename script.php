@@ -71,7 +71,7 @@ class PlgContentGalleryInstallerScript
    */
   function install($parent)
   {
-    echo JText::sprintf('PLG_CONTENT_GALLERY_INSTALL_TEXT', $this->_extension, $this->_release);
+    echo '<p>' . JText::sprintf('PLG_CONTENT_GALLERY_INSTALL_TEXT', $this->_extension, $this->_release) . '</p>';
   }
 
   /**
@@ -81,7 +81,7 @@ class PlgContentGalleryInstallerScript
    */
   function uninstall($parent)
   {
-    echo JText::sprintf('PLG_CONTENT_GALLERY_UNINSTALL_TEXT', $this->_extension, $this->_release);
+    echo '<p>' . JText::sprintf('PLG_CONTENT_GALLERY_UNINSTALL_TEXT', $this->_extension, $this->_release) . '</p>';
   }
 
   /**
@@ -91,7 +91,7 @@ class PlgContentGalleryInstallerScript
    */
   function update($parent)
   {
-    echo JText::sprintf('PLG_CONTENT_GALLERY_UPDATE_TEXT', $this->_extension, $this->_release);
+    echo '<p>' . JText::sprintf('PLG_CONTENT_GALLERY_UPDATE_TEXT', $this->_extension, $this->_release) . '</p>';
   }
 
   /**
@@ -142,7 +142,7 @@ class PlgContentGalleryInstallerScript
     {
       $oldRelease = $this->_getParam('version');
 
-      if (version_compare($this->_release, $oldRelease, 'le'))
+      if (version_compare($this->_release, $oldRelease, 'lt'))
       {
         $app->enqueueMessage(JText::sprintf('PLG_CONTENT_GALLERY_UPDATE_UNSUPPORTED', $this->_extension, $oldRelease, $this->_release), 'error');
         return false;
