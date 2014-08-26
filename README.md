@@ -31,4 +31,4 @@ TODO
 Release Notes
 -------------
 
-You can [see the release notes here](http://github.com/renebentes/plg_content_gallery/CHANGELOG.md)
+You can [see the release notes here](http://github.com/renebentes/plg_content_gallery/blob/master/CHANGELOG.md)
