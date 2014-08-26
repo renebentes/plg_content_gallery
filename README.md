@@ -31,17 +31,4 @@ TODO
 Release Notes
 -------------
 
-#####Legend:
-  \+ Added \- Removed ^ Updated \* Bugfix \# Secure fix ! Relevant Message
-
-######1.0.3
-  \+ CSS para botão fechar modal
-  ^ Caption para imagens
-  \+ Título para modal
-######1.0.2
-  \+ Script de instalação para remoção de arquivos antigos
-  \* Corrigido referência para JFile
-######1.0.1
-  ^ Novo tamanho para thumbnails
-######1.0.0
-  ! Estruturação do projeto
+You can [see the release notes here](http://github.com/renebentes/plg_content_gallery/CHANGELOG.md)
