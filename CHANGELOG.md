@@ -15,5 +15,5 @@ Este arquivo refere-se às mudanças realizadas desde a versão inicial de desen
   * Fixed - Corrigido referência para JFile
 * 1.0.1 - 13/08/2014
   * Updated - Novo tamanho para thumbnails
-* 1.0.0 - 11/08/2014
+* 1.0.0 - 04/08/2014
   * Message - Estágio inicial de desenvolvimento
