@@ -64,8 +64,8 @@ abstract class GalleryHelper
         $temp = explode(';', $line);
         if (strtolower($temp[0]) == strtolower($reference))
         {
-          $caption->title       = $temp[1];
-          $caption->description = $temp[2];
+          $caption->title       = nl2br($temp[1]);
+          $caption->description = nl2br($temp[2]);
           break;
         }
       }

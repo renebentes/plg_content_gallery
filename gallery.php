@@ -46,14 +46,14 @@ class plgContentGallery extends JPlugin
   }
 
   /**
-   * Method is called by the view
+   * Method called to prepare content before html output
    *
-   * @param   string  $context   The context of the content being passed to the plugin.
-   * @param   object  &$row      The content object.  Note $row->text is also available
-   * @param   object  &$params   The content params.
-   * @param   integer $page      The 'page' number.
+   * @param string  $context    The context of the content being passed to the plugin.
+   * @param object  &$item      The content object.  Note $item->text is also available
+   * @param object  &$params    The content params.
+   * @param integer $page       The 'page' number.
    *
-   * @return  void
+   * @return mixed Returns void on success or false otherwise
    *
    * @since 2.5
    */
@@ -97,9 +97,27 @@ class plgContentGallery extends JPlugin
       $row->text = preg_replace($regex, $html, $row->text);
     }
 
+
+    return true;
+  }
+
+  /**
+   * Method is called by the view and the results are imploded and displayed in a placeholder
+   *
+   * @param string  $context    The context of the content passed to the plugin.
+   * @param object  &$item      The content object.  Note $item->text is also available
+   * @param object  &$params    The content params
+   * @param integer $page       The 'page' number
+   *
+   * @return string
+   *
+   * @since 2.5
+   */
+  public function onContentBeforeDisplay($context, &$item, &$params, $page = 0)
+  {
     JFactory::getDocument()->addStylesheet(JUri::root(true) . '/plugins/content/gallery/assets/css/gallery.css');
     echo '<script src="' . JUri::root(true) . '/plugins/content/gallery/assets/js/gallery.js" type="text/javascript"></script>';
 
-    return true;
+    return '';
   }
 }

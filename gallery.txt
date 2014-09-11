@@ -1,4 +1,4 @@
-cmt01.jpg;Cel Eng Alberto de Léo;Período de Cmdo: 11 Jan 1968 - 31 Ago 1970 (2º B Rv) \n 01 Set 1970 - 21 Out 1972;
+cmt01.jpg;Cel Eng Alberto de Léo;Período de Cmdo: 11 Jan 1968 - 31 Ago 1970 (2º B Rv)\n 01 Set 1970 - 21 Out 1972;
 cmt02.jpg;Ten Cel Eng Yvens Ely Monteiro Marcondes;Período de Cmdo: 13 Jan 1973 - 28 Jan 1976;
 cmt03.jpg;Ten Cel Eng Ricardo Moniz de Aragão;Período de Cmdo: 28 Jan 1976 - 27 Jan 1978;
 cmt04.jpg;Cel Eng Aldo Pinheiro Rangel;Período de Cmdo: 27 Jan 1978 - 28 Jan 1980;

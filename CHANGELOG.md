@@ -3,6 +3,9 @@ CHANGELOG
 
 Este arquivo refere-se às mudanças realizadas desde a versão inicial de desenvolvimento.
 
+* 1.0.5 - 09/09/2014
+  * Fixed - Bugs corrigidos
+  * Added - Método OnContentBeforeDysplay para incluir css e js adicional
 * 1.0.4 - 26/08/2014
   * Removed - Referência às alterações sofridas pelo projeto removidas do arquivo README.md
   * Added - Arquivo CHANGELOG.md com as alterações sofridas pelo projeto

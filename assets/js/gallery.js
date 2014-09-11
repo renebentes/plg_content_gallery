@@ -13,11 +13,12 @@ if (typeof jQuery === 'undefined') throw new Error('Gallery\'s Javascript requir
   // ========================
 
   var Gallery = function(element, options) {
-    this.$element = $(element);
-    this.options = $.extend({}, Gallery.DEFAULTS, options);
-    this.$parent = this.$element.parents().find('.gallery');
-    this.count = this.$parent.children().length;
-    this.index = this.$element.parent().index();
+    this.$body     = $(document.body)
+    this.$element  = $(element);
+    this.options   = $.extend({}, Gallery.DEFAULTS, options);
+    this.$parent   = this.$element.parents().find('.gallery');
+    this.count     = this.$parent.children().length;
+    this.index     = this.$element.parent().index();
     this.container = this.options.container;
 
     this.template = {
@@ -30,14 +31,14 @@ if (typeof jQuery === 'undefined') throw new Error('Gallery\'s Javascript requir
         '</div>' +
         '</div>',
       header: '<div class="modal-header">' +
-        '<button type="button" class="btn btn-default" data-dismiss="modal">' +
-        '<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>' +
+        '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">' +
+        '<span class="fa fa-times" aria-hidden="true"></span>' +
         '<span class="sr-only">Close</span>' +
         '</button>' +
         '</div>',
       image: '<img src="" class="img-responsive center-block" alt="" title="" />',
       footer: '<div class="modal-footer"></div>',
-      legend: '<div class="caption col-md-10 text-left"></div>',
+      legend: '<div class="caption"></div>',
       control: '<div class="btn-group control">' +
         '<button type="button" class="btn btn-default prev"><i class="fa fa-chevron-left"></i></button>' +
         '<button type="button" class="btn btn-default next"><i class="fa fa-chevron-right"></i></button>' +
@@ -45,7 +46,7 @@ if (typeof jQuery === 'undefined') throw new Error('Gallery\'s Javascript requir
     };
   };
 
-  Gallery.VERSION = '1.0.2';
+  Gallery.VERSION = '1.0.3';
 
   Gallery.DEFAULTS = {
     container: '.gallery-modal'
@@ -53,30 +54,34 @@ if (typeof jQuery === 'undefined') throw new Error('Gallery\'s Javascript requir
 
   Gallery.prototype.show = function() {
     $('div').remove(this.container);
-    $('body').append(this.template.dialog);
+    this.$body.append(this.template.dialog);
+
+    var galleryTitle = this.$parent.attr('data-title');
+    var title = this.$element.attr('data-title');
+    var description = this.$element.attr('data-description');
 
     $(this.container).on('keydown.bs.gallery', $.proxy(this.keydown, this));
 
     $(this.container + ' .modal-content').prepend(this.template.header);
 
-    if (this.$parent.data('title') !== 'undefined')
+    if (galleryTitle !== 'undefined')
       $(this.container + ' .modal-header').append('<h4 class="modal-title">' + this.$parent.data('title') + '</h4>');
 
     $(this.container + ' .modal-body').append(this.template.image);
     $(this.container + ' img').attr('src', this.$element.attr('href'));
 
 
-    if (this.count > 1 || (this.$element.data('title') !== 'undefined' || this.$element.data('description') !== 'undefined')) {
+    if (this.count > 1 || (title !== 'undefined' || description !== 'undefined')) {
       $(this.container + ' .modal-content').append(this.template.footer);
 
-      if (this.$element.data('title') !== 'undefined' || this.$element.data('description') !== 'undefined') {
-        $(this.container + ' .modal-footer').append(this.template.legend);
+      if (title !== 'undefined' || description !== 'undefined') {
+        $(this.container + ' .modal-body').append(this.template.legend);
 
-        if (this.$element.data('title') !== 'undefined')
-          $(this.container + ' .modal-footer .caption').append('<h4>' + this.$element.data('title') + '</h4>');
+        if (title !== 'undefined')
+          $(this.container + ' .modal-body .caption').append('<h4>' + title + '</h4>');
 
-        if (this.$element.data('description') !== 'undefined')
-          $(this.container + ' .modal-footer .caption').append('<p>' + this.$element.data('description') + '</p>');
+        if (description !== 'undefined')
+          $(this.container + ' .modal-body .caption').append('<p>' + description + '</p>');
       }
 
       if (this.count > 1) {
@@ -108,17 +113,19 @@ if (typeof jQuery === 'undefined') throw new Error('Gallery\'s Javascript requir
 
   Gallery.prototype.prev = function() {
     this.index--;
-    $('div').remove('.modal-footer .caption');
+    $('div').remove('.modal-body .caption');
     if (this.index < 0) {
       this.index = this.count - 1;
     }
 
     $(this.container + ' img').attr('src', this.$parent.find('a').get(this.index).getAttribute('href'));
+    var title = this.$parent.find('a').get(this.index).getAttribute('data-title');
+    var description = this.$parent.find('a').get(this.index).getAttribute('data-description');
 
-    if (this.$parent.find('a').get(this.index).getAttribute('data-title') !== 'undefined' || this.$parent.find('a').get(this.index).getAttribute('data-description') !== 'undefined') {
-      $(this.container + ' .modal-footer').prepend(this.template.legend);
-      $(this.container + ' .modal-footer .caption').append('<h4>' + this.$parent.find('a').get(this.index).getAttribute('data-title') + '</h4>');
-      $(this.container + ' .modal-footer .caption').append('<p>' + this.$parent.find('a').get(this.index).getAttribute('data-description') + '</p>');
+    if (title !== 'undefined' || description !== 'undefined') {
+      $(this.container + ' .modal-body').append(this.template.legend);
+      $(this.container + ' .caption').append('<h4>' + title + '</h4>');
+      $(this.container + ' .caption').append('<p>' + description + '</p>');
     }
 
     return false;
@@ -126,17 +133,19 @@ if (typeof jQuery === 'undefined') throw new Error('Gallery\'s Javascript requir
 
   Gallery.prototype.next = function() {
     this.index++;
-    $('div').remove('.modal-footer .caption');
+    $('div').remove('.modal-body .caption');
     if (this.index >= this.count) {
       this.index = 0;
     }
 
     $(this.container + ' img').attr('src', this.$parent.find('a').get(this.index).getAttribute('href'));
+    var title = this.$parent.find('a').get(this.index).getAttribute('data-title');
+    var description = this.$parent.find('a').get(this.index).getAttribute('data-description');
 
-    if (this.$parent.find('a').get(this.index).getAttribute('data-title') !== 'undefined' || this.$parent.find('a').get(this.index).getAttribute('data-description') !== 'undefined') {
-      $(this.container + ' .modal-footer').prepend(this.template.legend);
-      $(this.container + ' .modal-footer .caption').append('<h4>' + this.$parent.find('a').get(this.index).getAttribute('data-title') + '</h4>');
-      $(this.container + ' .modal-footer .caption').append('<p>' + this.$parent.find('a').get(this.index).getAttribute('data-description') + '</p>');
+    if (title !== 'undefined' || description !== 'undefined') {
+      $(this.container + ' .modal-body').append(this.template.legend);
+      $(this.container + ' .caption').append('<h4>' + title + '</h4>');
+      $(this.container + ' .caption').append('<p>' + description + '</p>');
     }
 
     return false;
